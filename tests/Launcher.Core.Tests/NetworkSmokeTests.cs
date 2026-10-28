@@ -17,10 +17,7 @@ public class NetworkSmokeTests
         try
         {
             var service = new VersionService(root);
-            var manifest = await service.GetManifestAsync();
-            var entry = manifest.Versions.First(v => v.Id == "1.12.2");
-
-            var installed = await service.InstallAsync(entry);
+            var installed = await service.InstallVanillaAsync("1.12.2");
 
             Assert.True(File.Exists(installed.ClientJar));
             Assert.NotEmpty(installed.ClasspathEntries);

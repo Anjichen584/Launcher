@@ -68,6 +68,14 @@ public sealed class VersionJson
     [JsonPropertyName("libraries")]
     public List<Library> Libraries { get; set; } = new();
 
+    /// <summary>继承的父版本（加载器版本依赖原版）。</summary>
+    [JsonPropertyName("inheritsFrom")]
+    public string? InheritsFrom { get; set; }
+
+    /// <summary>实际使用的客户端 jar 所属版本 ID（缺省为自身）。</summary>
+    [JsonPropertyName("jar")]
+    public string? Jar { get; set; }
+
     /// <summary>该版本要求的 Java 主版本（缺省视为 Java 8）。</summary>
     [JsonPropertyName("javaVersion")]
     public JavaVersionRef? JavaVersion { get; set; }
@@ -138,6 +146,16 @@ public sealed class Library
     /// <summary>旧版本的 natives 映射，例如 {"windows": "natives-windows-${arch}"}。</summary>
     [JsonPropertyName("natives")]
     public Dictionary<string, string>? Natives { get; set; }
+
+    /// <summary>加载器库常用的仓库地址（无 downloads 字段时使用）。</summary>
+    [JsonPropertyName("url")]
+    public string? Url { get; set; }
+
+    [JsonPropertyName("sha1")]
+    public string? Sha1 { get; set; }
+
+    [JsonPropertyName("size")]
+    public long? Size { get; set; }
 }
 
 public sealed class LibraryDownloads

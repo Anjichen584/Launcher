@@ -23,7 +23,7 @@ public sealed class LaunchOptions
 
     public string LauncherName { get; init; } = "McLauncher";
     public string LauncherVersion { get; init; } = "0.1.0";
-    public string ClasspathSeparator { get; init; } = ";";
+    public string ClasspathSeparator { get; init; } = Platform.ClasspathSeparator;
 }
 
 public sealed record LaunchCommand(string FileName, IReadOnlyList<string> Arguments);

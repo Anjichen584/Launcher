@@ -13,28 +13,28 @@ public class RuleEvaluatorTests
     }
 
     [Fact]
-    public void OsSpecificAllow_OnlyMatchesWindows()
+    public void OsSpecificAllow_MatchesOnlyCurrentPlatform()
     {
-        var rules = new List<Rule>
+        var current = new List<Rule>
         {
-            new() { Action = "allow", Os = new OsRule { Name = "windows" } },
+            new() { Action = "allow", Os = new OsRule { Name = Platform.OsName } },
         };
-        Assert.True(RuleEvaluator.IsAllowed(rules));
+        Assert.True(RuleEvaluator.IsAllowed(current));
 
-        var osxOnly = new List<Rule>
+        var other = new List<Rule>
         {
-            new() { Action = "allow", Os = new OsRule { Name = "osx" } },
+            new() { Action = "allow", Os = new OsRule { Name = "solaris" } },
         };
-        Assert.False(RuleEvaluator.IsAllowed(osxOnly));
+        Assert.False(RuleEvaluator.IsAllowed(other));
     }
 
     [Fact]
-    public void DisallowWindows_ExcludesLibrary()
+    public void DisallowCurrentOs_ExcludesLibrary()
     {
         var rules = new List<Rule>
         {
             new() { Action = "allow" },
-            new() { Action = "disallow", Os = new OsRule { Name = "windows" } },
+            new() { Action = "disallow", Os = new OsRule { Name = Platform.OsName } },
         };
         Assert.False(RuleEvaluator.IsAllowed(rules));
     }

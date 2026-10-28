@@ -1,12 +1,12 @@
 namespace Launcher.Core;
 
 /// <summary>
-/// 评估 Mojang 版本 JSON 中的 rules。目标平台为 Windows x64，
+/// 评估 Mojang 版本 JSON 中的 rules。目标平台为当前运行的操作系统，
 /// 启动器不启用任何可选 feature（如 demo 用户、自定义分辨率）。
 /// </summary>
 public static class RuleEvaluator
 {
-    public const string TargetOs = "windows";
+    public static string TargetOs => Platform.OsName;
 
     /// <summary>无 rules 视为允许；否则按顺序评估，最后一条匹配的规则决定结果。</summary>
     public static bool IsAllowed(IReadOnlyList<Rule>? rules)
@@ -31,7 +31,8 @@ public static class RuleEvaluator
             {
                 return false;
             }
-            if (!string.IsNullOrEmpty(rule.Os.Arch) && rule.Os.Arch != "x64")
+            // 规则中的 "x86" 表示 32 位系统，本启动器只支持 64 位。
+            if (string.Equals(rule.Os.Arch, "x86", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }

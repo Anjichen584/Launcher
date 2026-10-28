@@ -27,10 +27,11 @@ public static class Downloader
         string? sha1,
         CancellationToken ct = default)
     {
-        if (sha1 is not null && File.Exists(destination)
-            && string.Equals(await HashFileAsync(destination, ct), sha1, StringComparison.OrdinalIgnoreCase))
+        if (File.Exists(destination))
         {
-            return;
+            // 没有 sha1 时信任已存在的文件；有 sha1 时必须校验通过。
+            if (sha1 is null) return;
+            if (string.Equals(await HashFileAsync(destination, ct), sha1, StringComparison.OrdinalIgnoreCase)) return;
         }
 
         var dir = Path.GetDirectoryName(destination);

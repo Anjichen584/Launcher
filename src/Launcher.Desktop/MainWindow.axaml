@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Launcher.Desktop.MainWindow"
+        Title="McLauncher"
+        Width="980" Height="640" MinWidth="780" MinHeight="520"
+        WindowStartupLocation="CenterScreen">
+  <Grid Margin="18" RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+    <!-- 第一行：游戏版本与加载器 -->
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10">
+      <TextBlock Text="游戏版本" VerticalAlignment="Center" Width="60"/>
+      <ComboBox x:Name="VersionBox" Width="180"/>
+      <CheckBox x:Name="ReleaseOnlyBox" Content="仅正式版" IsChecked="True" VerticalAlignment="Center" Margin="4,0,12,0"/>
+      <TextBlock Text="加载器" VerticalAlignment="Center" Width="48"/>
+      <ComboBox x:Name="LoaderBox" Width="140"/>
+      <ComboBox x:Name="LoaderVersionBox" Width="200"/>
+    </StackPanel>
+
+    <!-- 第二行：账号、内存、Java -->
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,12,0,0">
+      <TextBlock Text="玩家名" VerticalAlignment="Center" Width="60"/>
+      <TextBox x:Name="UserNameBox" Width="160" MaxLength="16" Watermark="3-16 位字母/数字/_"/>
+      <TextBlock Text="内存" VerticalAlignment="Center" Width="48"/>
+      <ComboBox x:Name="MemoryBox" Width="120"/>
+      <TextBlock Text="Java" VerticalAlignment="Center" Width="40"/>
+      <ComboBox x:Name="JavaBox" Width="330"/>
+      <Button x:Name="RefreshJavaButton" Content="重新检测" Click="OnRefreshJava"/>
+    </StackPanel>
+
+    <!-- 第三行：操作 -->
+    <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="10" Margin="0,14,0,0">
+      <Button x:Name="LaunchButton" Content="安装并启动" Click="OnLaunch" Width="130" Classes="accent"/>
+      <Button x:Name="CancelButton" Content="取消" Click="OnCancel" Width="80" IsEnabled="False"/>
+      <Button x:Name="OpenFolderButton" Content="打开游戏目录" Click="OnOpenFolder"/>
+    </StackPanel>
+
+    <!-- 第四行：日志 -->
+    <Border Grid.Row="3" Margin="0,14,0,0" Padding="10" CornerRadius="6" Background="#15151A">
+      <ScrollViewer x:Name="LogScroll" VerticalScrollBarVisibility="Auto">
+        <TextBox x:Name="LogBox" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"
+                 BorderThickness="0" Background="Transparent" Foreground="#C9C9D4"
+                 FontFamily="Consolas,Menlo,monospace" FontSize="12"/>
+      </ScrollViewer>
+    </Border>
+
+    <TextBlock Grid.Row="4" x:Name="StatusText" Text="就绪" Margin="0,8,0,0" Opacity="0.7"/>
+  </Grid>
+</Window>

@@ -15,7 +15,8 @@ public static class MirrorSource
             .Replace("https://launchermeta.mojang.com", BmclApi)
             .Replace("https://launcher.mojang.com", BmclApi)
             .Replace("https://libraries.minecraft.net", BmclApi + "/maven")
-            .Replace("https://resources.download.minecraft.net", BmclApi + "/assets");
+            .Replace("https://resources.download.minecraft.net", BmclApi + "/assets")
+            .Replace("https://maven.fabricmc.net", BmclApi + "/maven");
     }
 
     /// <summary>返回候选地址列表：镜像优先，官方兜底。</summary>

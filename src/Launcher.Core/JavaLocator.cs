@@ -17,13 +17,13 @@ public static class JavaLocator
         var javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
         if (!string.IsNullOrWhiteSpace(javaHome))
         {
-            candidates.Add(System.IO.Path.Combine(javaHome, "bin", "java.exe"));
+            candidates.Add(System.IO.Path.Combine(javaHome, "bin", Platform.JavaExecutableName));
         }
 
         var path = Environment.GetEnvironmentVariable("PATH") ?? "";
         foreach (var dir in path.Split(System.IO.Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
         {
-            candidates.Add(System.IO.Path.Combine(dir, "java.exe"));
+            candidates.Add(System.IO.Path.Combine(dir, Platform.JavaExecutableName));
         }
 
         foreach (var root in CommonRoots())
@@ -31,7 +31,8 @@ public static class JavaLocator
             if (!Directory.Exists(root)) continue;
             foreach (var dir in Directory.EnumerateDirectories(root))
             {
-                candidates.Add(System.IO.Path.Combine(dir, "bin", "java.exe"));
+                candidates.Add(System.IO.Path.Combine(dir, "bin", Platform.JavaExecutableName));
+                candidates.Add(System.IO.Path.Combine(dir, "Contents", "Home", "bin", Platform.JavaExecutableName));
             }
         }
 
@@ -88,6 +89,14 @@ public static class JavaLocator
 
     private static IEnumerable<string> CommonRoots()
     {
+        if (!Platform.IsWindows)
+        {
+            yield return "/usr/lib/jvm";
+            yield return "/Library/Java/JavaVirtualMachines";
+            yield return "/usr/local/lib/jvm";
+            yield break;
+        }
+
         var pf = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
         var pf86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
         foreach (var baseDir in new[] { pf, pf86 }.Where(d => !string.IsNullOrEmpty(d)))
