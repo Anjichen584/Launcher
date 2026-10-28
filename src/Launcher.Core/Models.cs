@@ -67,6 +67,21 @@ public sealed class VersionJson
 
     [JsonPropertyName("libraries")]
     public List<Library> Libraries { get; set; } = new();
+
+    /// <summary>该版本要求的 Java 主版本（缺省视为 Java 8）。</summary>
+    [JsonPropertyName("javaVersion")]
+    public JavaVersionRef? JavaVersion { get; set; }
+
+    public int RequiredJavaMajor => JavaVersion?.MajorVersion ?? 8;
+}
+
+public sealed class JavaVersionRef
+{
+    [JsonPropertyName("component")]
+    public string Component { get; set; } = "";
+
+    [JsonPropertyName("majorVersion")]
+    public int MajorVersion { get; set; }
 }
 
 public sealed class ArgumentsNode
